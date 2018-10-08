@@ -1,0 +1,36 @@
+<?php session_start(); ?>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<table width = "1000" height = "120" border="1"> 
+<?php
+include("mysql_connect.inc.php");
+
+//此判斷為判定觀看此頁有沒有權限
+if($_SESSION['username'] != null)
+{
+        echo '<a href="register.php">新增</a> &nbsp;  ';
+        echo '<a href="delete.php">刪除</a>   &nbsp; <br><br>';
+        echo "<tr>";
+        //將資料庫裡的所有會員資料顯示在畫面上
+        $sql = "SELECT * FROM member_table";
+        $result = mysql_query($sql);
+        while($row = mysql_fetch_row($result))
+        {
+			
+                 echo "<td height='30'>
+				  $row[0] - 名字(帳號)：$row[1],&nbsp " . 
+                 "電話：$row[3],&nbsp  地址：$row[4],&nbsp  備註：$row[5]
+				 <br> 
+				 </td>>";
+
+			echo "</tr>";
+			
+
+        }
+}
+else
+{
+        echo '您無權限觀看此頁面!';
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+}
+echo '<br><br> <a href="logout.php">登出</a> <br> ';
+?>
